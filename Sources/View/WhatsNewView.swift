@@ -144,7 +144,25 @@ private extension WhatsNewView {
     
     /// The Feature View
     /// - Parameter feature: A WhatsNew Feature
+    @ViewBuilder
     func feature(
+        _ feature: WhatsNew.Feature
+    ) -> some View {
+        if feature.isProminent {
+            self.featureContent(feature)
+                .modifier(
+                    ProminentFeatureBackground(
+                        layout: self.layout
+                    )
+                )
+        } else {
+            self.featureContent(feature)
+        }
+    }
+
+    /// The Feature content View
+    /// - Parameter feature: A WhatsNew Feature
+    func featureContent(
         _ feature: WhatsNew.Feature
     ) -> some View {
         HStack(
