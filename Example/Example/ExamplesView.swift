@@ -131,7 +131,8 @@ private extension WhatsNew.Example {
                             foregroundColor: .green
                         ),
                         title: "Updated Map Style",
-                        subtitle: "An improved design makes it easier to navigate and explore the map."
+                        subtitle: "An improved design makes it easier to navigate and explore the map.",
+                        isProminent: true
                     ),
                     .init(
                         image: .init(
@@ -147,8 +148,7 @@ private extension WhatsNew.Example {
                             foregroundColor: .blue
                         ),
                         title: "Improved Search",
-                        subtitle: "Finding places is now easier with filters and automatic updates when you're browsing results on the map.",
-                        isProminent: true
+                        subtitle: "Finding places is now easier with filters and automatic updates when you're browsing results on the map."
                     )
                 ],
                 primaryAction: .init(backgroundColor: .blue),
