@@ -217,35 +217,55 @@ private extension WhatsNewView {
                 .foregroundColor(secondaryAction.foregroundColor)
             }
             // Primary Action Button
-            Button(
-                action: {
-                    // Invoke HapticFeedback, if available
-                    self.whatsNew.primaryAction.hapticFeedback?()
-                    // Dismiss
-                    self.presentationMode.wrappedValue.dismiss()
-                    // Invoke on dismiss, if available
-                    self.whatsNew.primaryAction.onDismiss?()
-                }
-            ) {
+            self.primaryActionButton
+        }
+    }
+
+    /// The Primary Action Button
+    @ViewBuilder
+    var primaryActionButton: some View {
+        let action: () -> Void = {
+            // Invoke HapticFeedback, if available
+            self.whatsNew.primaryAction.hapticFeedback?()
+            // Dismiss
+            self.presentationMode.wrappedValue.dismiss()
+            // Invoke on dismiss, if available
+            self.whatsNew.primaryAction.onDismiss?()
+        }
+        #if os(iOS)
+        if #available(iOS 26.0, *) {
+            Button(action: action) {
                 Text(
                     whatsNewText: self.whatsNew.primaryAction.title
                 )
-                #if os(macOS)
-                .frame(minWidth: 150)
-                #endif
+                .padding(8)
             }
-            #if os(iOS)
+            .buttonStyle(.glassProminent)
+            .tint(self.whatsNew.primaryAction.backgroundColor)
+            .foregroundStyle(self.whatsNew.primaryAction.foregroundColor)
+        } else {
+            Button(action: action) {
+                Text(
+                    whatsNewText: self.whatsNew.primaryAction.title
+                )
+            }
             .buttonStyle(
                 PrimaryButtonStyle(
                     primaryAction: self.whatsNew.primaryAction,
                     layout: self.layout
                 )
             )
-            #elseif os(macOS)
-            .keyboardShortcut(.defaultAction)
-            .controlSize(.large)
-            #endif
         }
+        #elseif os(macOS)
+        Button(action: action) {
+            Text(
+                whatsNewText: self.whatsNew.primaryAction.title
+            )
+            .frame(minWidth: 150)
+        }
+        .keyboardShortcut(.defaultAction)
+        .controlSize(.large)
+        #endif
     }
-    
+
 }
