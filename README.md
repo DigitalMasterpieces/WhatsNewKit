@@ -391,6 +391,19 @@ let feature = WhatsNew.Feature(
 )
 ```
 
+Set `isProminent` to `true` to highlight a feature inside a card with an animated gradient border (using Liquid Glass on iOS/macOS 26 and a material background on earlier versions). The card's appearance can be customized via the `prominentFeature…` properties of `WhatsNew.Layout`.
+
+```swift
+let feature = WhatsNew.Feature(
+    image: .init(
+        systemName: "play.circle"
+    ),
+    title: "See it in action",
+    subtitle: "Watch a short video to discover what's new.",
+    isProminent: true
+)
+```
+
 ### WhatsNew.PrimaryAction
 
 The `WhatsNew.PrimaryAction` allows you to configure the behaviour of the primary button which is used to dismiss the presented `WhatsNewView`
@@ -453,6 +466,15 @@ The most simple way is by mutating the `WhatsNew.Layout.default` instance.
 
 ```swift
 WhatsNew.Layout.default.featureListSpacing = 35
+```
+
+The prominent feature card (see [`isProminent`](#whatsnewfeature)) can be styled via the following properties:
+
+```swift
+WhatsNew.Layout.default.prominentFeatureCornerRadius = 16
+WhatsNew.Layout.default.prominentFeaturePadding = .init(top: 16, leading: 16, bottom: 16, trailing: 16)
+WhatsNew.Layout.default.prominentFeatureBorderColors = [.orange, .red, .purple, .blue]
+WhatsNew.Layout.default.prominentFeatureBorderWidth = 2
 ```
 
 When using the automatic presentation style you can supply a default layout when initializing the WhatsNewEnvironment.
