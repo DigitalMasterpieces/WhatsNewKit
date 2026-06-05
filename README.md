@@ -473,8 +473,9 @@ The prominent feature card (see [`isProminent`](#whatsnewfeature)) can be styled
 ```swift
 WhatsNew.Layout.default.prominentFeatureCornerRadius = 16
 WhatsNew.Layout.default.prominentFeaturePadding = .init(top: 16, leading: 16, bottom: 16, trailing: 16)
-WhatsNew.Layout.default.prominentFeatureBorderColors = [.orange, .red, .purple, .blue]
-WhatsNew.Layout.default.prominentFeatureBorderWidth = 2
+WhatsNew.Layout.default.prominentFeatureGradientColors = [.orange, .red, .purple, .cyan]
+WhatsNew.Layout.default.prominentFeatureBorderWidth = 1
+WhatsNew.Layout.default.prominentFeatureBackgroundOpacity = 0.3
 ```
 
 When using the automatic presentation style you can supply a default layout when initializing the WhatsNewEnvironment.
