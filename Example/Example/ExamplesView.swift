@@ -147,7 +147,8 @@ private extension WhatsNew.Example {
                             foregroundColor: .blue
                         ),
                         title: "Improved Search",
-                        subtitle: "Finding places is now easier with filters and automatic updates when you're browsing results on the map."
+                        subtitle: "Finding places is now easier with filters and automatic updates when you're browsing results on the map.",
+                        isProminent: true
                     )
                 ],
                 primaryAction: .init(backgroundColor: .blue),
