@@ -68,7 +68,7 @@ extension App: WhatsNewCollectionProvider {
                 .init(
                     image: .init(
                         systemName: "swift",
-                        foregroundColor: .init(.init(red: 240.0 / 255, green: 81.0 / 255, blue: 56.0 / 255, alpha: 1))
+                        foregroundColor: Color(red: 240.0 / 255, green: 81.0 / 255, blue: 56.0 / 255)
                     ),
                     title: "Swift Package Manager",
                     subtitle: "WhatsNewKit can be easily integrated via the Swift Package Manager."
