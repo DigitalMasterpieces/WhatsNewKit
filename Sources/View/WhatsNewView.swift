@@ -296,7 +296,8 @@ private extension WhatsNewView {
                 Text(
                     whatsNewText: self.whatsNew.primaryAction.title
                 )
-                .padding(8)
+                .padding(.vertical, 8)
+                .frame(maxWidth: .infinity)
             }
             .buttonStyle(.glassProminent)
             .tint(self.whatsNew.primaryAction.backgroundColor)
