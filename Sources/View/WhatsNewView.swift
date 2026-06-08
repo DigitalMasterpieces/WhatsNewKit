@@ -49,45 +49,51 @@ extension WhatsNewView: View {
     
     /// The content and behavior of the view.
     public var body: some View {
-        ZStack {
-            // Content ScrollView
-            ScrollView(
-                .vertical,
-                showsIndicators: self.layout.showsScrollViewIndicators
-            ) {
-                // Content Stack
-                VStack(
-                    spacing: self.layout.contentSpacing
-                ) {
-                    // Title
-                    self.title
-                    // Feature List
-                    VStack(
-                        alignment: .leading,
-                        spacing: self.layout.featureListSpacing
-                    ) {
-                        // Feature
-                        ForEach(
-                            self.whatsNew.features,
-                            id: \.self,
-                            content: self.feature
-                        )
-                    }
-                    .modifier(FeaturesPadding())
-                    .padding(self.layout.featureListPadding)
+        self.layoutContent
+        #if os(macOS)
+        .frame(minWidth: 400, maxWidth: 600)
+        #endif
+        .sheet(
+            item: self.$secondaryActionPresentedView,
+            content: { $0.view }
+        )
+        .onDisappear {
+            // Save presented WhatsNew Version, if available
+            self.whatsNewVersionStore?.save(
+                presentedVersion: self.whatsNew.version
+            )
+        }
+    }
+
+    /// The layout combining the content ScrollView with the footer
+    @ViewBuilder
+    private var layoutContent: some View {
+        #if os(iOS)
+        if #available(iOS 26.0, *) {
+            // On iOS 26+ the footer lives in a bottom safe area bar so the
+            // Liquid Glass primary action sits flush at the bottom edge and the
+            // scroll edge effect fades the content beneath it.
+            self.scrollView(reservesFooterSpace: false)
+                .safeAreaBar(edge: .bottom) {
+                    // The bar reserves its own safe area, so only modest padding
+                    // is needed here. The home indicator inset is handled by the
+                    // system, unlike the floating footer overlay below.
+                    self.footer
+                        .padding(.horizontal)
+                        .padding(.vertical, self.layout.footerActionSpacing)
                 }
-                .padding(.horizontal)
-                .padding(self.layout.contentPadding)
-                // ScrollView bottom content inset
-                Color.clear
-                    .padding(
-                        .bottom,
-                        self.layout.scrollViewBottomContentInset
-                    )
-            }
-            #if os(iOS)
-            .alwaysBounceVertical(false)
-            #endif
+        } else {
+            self.floatingFooterLayout
+        }
+        #else
+        self.floatingFooterLayout
+        #endif
+    }
+
+    /// The legacy layout that overlays the footer above the content ScrollView
+    private var floatingFooterLayout: some View {
+        ZStack {
+            self.scrollView(reservesFooterSpace: true)
             // Footer
             VStack {
                 Spacer()
@@ -104,21 +110,55 @@ extension WhatsNewView: View {
             }
             .edgesIgnoringSafeArea(.bottom)
         }
-        #if os(macOS)
-        .frame(minWidth: 400, maxWidth: 600)
-        #endif
-        .sheet(
-            item: self.$secondaryActionPresentedView,
-            content: { $0.view }
-        )
-        .onDisappear {
-            // Save presented WhatsNew Version, if available
-            self.whatsNewVersionStore?.save(
-                presentedVersion: self.whatsNew.version
-            )
-        }
     }
-    
+
+    /// The content ScrollView
+    /// - Parameter reservesFooterSpace: Whether to inset the bottom of the
+    ///   content to make room for a floating footer overlay.
+    private func scrollView(
+        reservesFooterSpace: Bool
+    ) -> some View {
+        ScrollView(
+            .vertical,
+            showsIndicators: self.layout.showsScrollViewIndicators
+        ) {
+            // Content Stack
+            VStack(
+                spacing: self.layout.contentSpacing
+            ) {
+                // Title
+                self.title
+                // Feature List
+                VStack(
+                    alignment: .leading,
+                    spacing: self.layout.featureListSpacing
+                ) {
+                    // Feature
+                    ForEach(
+                        self.whatsNew.features,
+                        id: \.self,
+                        content: self.feature
+                    )
+                }
+                .modifier(FeaturesPadding())
+                .padding(self.layout.featureListPadding)
+            }
+            .padding(.horizontal)
+            .padding(self.layout.contentPadding)
+            // ScrollView bottom content inset
+            if reservesFooterSpace {
+                Color.clear
+                    .padding(
+                        .bottom,
+                        self.layout.scrollViewBottomContentInset
+                    )
+            }
+        }
+        #if os(iOS)
+        .alwaysBounceVertical(false)
+        #endif
+    }
+
 }
 
 // MARK: - Title
