@@ -131,7 +131,8 @@ private extension WhatsNew.Example {
                             foregroundColor: .green
                         ),
                         title: "Updated Map Style",
-                        subtitle: "An improved design makes it easier to navigate and explore the map."
+                        subtitle: "An improved design makes it easier to navigate and explore the map.",
+                        isProminent: true
                     ),
                     .init(
                         image: .init(

@@ -38,7 +38,22 @@ public extension WhatsNew {
         
         /// The feature vertical spacing
         public var featureVerticalSpacing: CGFloat
-        
+
+        /// The corner radius of a prominent feature card
+        public var prominentFeatureCornerRadius: CGFloat
+
+        /// The padding inside a prominent feature card
+        public var prominentFeaturePadding: EdgeInsets
+
+        /// The gradient colors of a prominent feature card
+        public var prominentFeatureGradientColors: [Color]
+
+        /// The gradient border width of a prominent feature card
+        public var prominentFeatureBorderWidth: CGFloat
+
+        /// The opacity of a prominent feature card's gradient background and inner glow
+        public var prominentFeatureBackgroundOpacity: Double
+
         /// The footer action spacing
         public var footerActionSpacing: CGFloat
         
@@ -61,6 +76,11 @@ public extension WhatsNew {
         ///   - featureImageWidth: The feature image width. Default value `40`
         ///   - featureHorizontalSpacing: The feature horizontal spacing. Default value `15`
         ///   - featureVerticalSpacing: The feature vertical spacing. Default value `2`
+        ///   - prominentFeatureCornerRadius: The corner radius of a prominent feature card. Default value `16`
+        ///   - prominentFeaturePadding: The padding inside a prominent feature card. Default value `16`
+        ///   - prominentFeatureGradientColors: The gradient colors of a prominent feature card. Default value `[.orange, .red, .purple, .cyan]`
+        ///   - prominentFeatureBorderWidth: The gradient border width of a prominent feature card. Default value `1`
+        ///   - prominentFeatureBackgroundOpacity: The opacity of a prominent feature card's gradient background and inner glow. Default value `0.3`
         ///   - footerActionSpacing: The footer action spacing. Default value `15`
         ///   - footerPrimaryActionButtonCornerRadius: The corner radius of the primary action button. Default value `14`
         ///   - footerVisualEffectViewPadding: The footer visual effect view padding. Default value `top: -10`
@@ -75,6 +95,11 @@ public extension WhatsNew {
             featureHorizontalSpacing: CGFloat = 15,
             featureHorizontalAlignment: VerticalAlignment = .center,
             featureVerticalSpacing: CGFloat = 2,
+            prominentFeatureCornerRadius: CGFloat = 16,
+            prominentFeaturePadding: EdgeInsets = .init(top: 16, leading: 16, bottom: 16, trailing: 16),
+            prominentFeatureGradientColors: [Color] = Self.defaultProminentFeatureGradientColors,
+            prominentFeatureBorderWidth: CGFloat = 1,
+            prominentFeatureBackgroundOpacity: Double = 0.3,
             footerActionSpacing: CGFloat = 15,
             footerPrimaryActionButtonCornerRadius: CGFloat = 14,
             footerVisualEffectViewPadding: EdgeInsets = .init(top: -10, leading: 0, bottom: 0, trailing: 0)
@@ -89,6 +114,11 @@ public extension WhatsNew {
             self.featureHorizontalSpacing = featureHorizontalSpacing
             self.featureHorizontalAlignment = featureHorizontalAlignment
             self.featureVerticalSpacing = featureVerticalSpacing
+            self.prominentFeatureCornerRadius = prominentFeatureCornerRadius
+            self.prominentFeaturePadding = prominentFeaturePadding
+            self.prominentFeatureGradientColors = prominentFeatureGradientColors
+            self.prominentFeatureBorderWidth = prominentFeatureBorderWidth
+            self.prominentFeatureBackgroundOpacity = prominentFeatureBackgroundOpacity
             self.footerActionSpacing = footerActionSpacing
             self.footerPrimaryActionButtonCornerRadius = footerPrimaryActionButtonCornerRadius
             self.footerVisualEffectViewPadding = footerVisualEffectViewPadding
@@ -101,10 +131,20 @@ public extension WhatsNew {
 // MARK: - Layout+default
 
 public extension WhatsNew.Layout {
-    
+
     /// The mutable default Layout
     static var `default` = Self()
-    
+
+    /// The default gradient colors of a prominent feature card.
+    /// Uses `cyan` where available, falling back to `blue` on earlier platform versions.
+    static var defaultProminentFeatureGradientColors: [Color] {
+        if #available(iOS 15.0, macOS 12.0, visionOS 1.0, *) {
+            return [.orange, .red, .purple, .cyan]
+        } else {
+            return [.orange, .red, .purple, .blue]
+        }
+    }
+
 }
 
 // MARK: - Layout+reset

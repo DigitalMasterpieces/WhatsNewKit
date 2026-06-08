@@ -17,22 +17,28 @@ public extension WhatsNew {
         
         /// The subtitle Text
         public var subtitle: Text
-        
+
+        /// A Boolean value if the feature should be highlighted using a prominent card style
+        public var isProminent: Bool
+
         // MARK: Initializer
-        
+
         /// Creates a new instance of `WhatsNew.Feature`
         /// - Parameters:
         ///   - image: The image
         ///   - title: The title Text
         ///   - subtitle: The subtitle Text
+        ///   - isProminent: A Boolean value if the feature should be highlighted using a prominent card style. Default value `false`
         public init(
             image: Image,
             title: Text,
-            subtitle: Text
+            subtitle: Text,
+            isProminent: Bool = false
         ) {
             self.image = image
             self.title = title
             self.subtitle = subtitle
+            self.isProminent = isProminent
         }
         
     }
